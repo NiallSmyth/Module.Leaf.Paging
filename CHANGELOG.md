@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.5
+
+Fixed:  Potential out of memory issue when paging a large collection
+
 ### 1.1.4
 
 Fixed:  Issue with pager resetting range to 0 on before render

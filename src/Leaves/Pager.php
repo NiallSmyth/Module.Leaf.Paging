@@ -1,7 +1,7 @@
 <?php
 
 /*
- *	Copyright 2015 RhubarbPHP
+ *	Copyright 2020 RhubarbPHP
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,13 +23,12 @@ use Rhubarb\Crown\Request\WebRequest;
 use Rhubarb\Leaf\Leaves\LeafModel;
 use Rhubarb\Leaf\Leaves\UrlStateLeaf;
 use Rhubarb\Leaf\Paging\Exceptions\PagerOutOfBoundsException;
+use Rhubarb\Stem\Aggregates\Count;
 use Rhubarb\Stem\Collections\Collection;
 
-/**
- * @property Collection $Collection The collection to page
- */
 class Pager extends UrlStateLeaf
 {
+    /** @var Collection|null The collection to page */
     private $collection;
 
     /**
@@ -153,7 +152,7 @@ class Pager extends UrlStateLeaf
      */
     private function calculateNumberOfPages()
     {
-        $collectionSize = sizeof($this->collection);
+        list($collectionSize) = $this->collection->calculateAggregates(new Count("*"));
         $pages = ceil($collectionSize / $this->model->perPage);
 
         return $pages;
